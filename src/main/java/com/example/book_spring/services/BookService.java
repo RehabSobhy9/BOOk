@@ -35,4 +35,8 @@ public class BookService {
     public void delete(int id) {
         bookRepository.deleteById(id);
     }
+
+    public Optional<Book> findByIsbn(int isbn) {
+        return bookRepository.findByIsbn(isbn);
+    }
 }

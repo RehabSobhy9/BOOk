@@ -55,4 +55,13 @@ public class BookController {
         bookService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/isbn/{isbn}")
+    public ResponseEntity<Book> findByIsbn(@PathVariable int isbn) {
+        Optional<Book> currentBook = bookService.findByIsbn(isbn);
+        if (currentBook.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(currentBook.get(), HttpStatus.NO_CONTENT);
+    }
 }

@@ -44,4 +44,15 @@ public class BookController {
 
         return new ResponseEntity<>(bookService.save(updatedBook), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        Optional<Book> currentBook = bookService.findOne(id);
+
+        if (currentBook.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        bookService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

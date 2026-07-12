@@ -5,6 +5,7 @@ import com.example.book_spring.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -23,4 +24,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    public Optional<Book> update(int id){
+          return  bookRepository.findById(id);
+    }
 }

@@ -23,12 +23,14 @@ public class Book {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "author")
-    private String author;
 
     @Column(name = "isbn")
     private Integer isbn;
 
     @Column(name = "price")
     private Double price;
+
+    @ManyToOne
+    @JoinColumn(name = "authorId")
+    private Author author;
 }

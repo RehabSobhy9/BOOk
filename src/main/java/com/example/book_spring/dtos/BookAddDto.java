@@ -8,13 +8,14 @@ public record BookAddDto(
         @NotBlank(message = "title is required")
         String title,
 
-        @NotBlank(message = "author is required")
-        String author,
-
         @NotNull(message = "isbn is required")
         Integer isbn,
 
         @NotNull(message = "price is required")
         @Positive(message = "price should be positive value")
-        Double price) {
+        Double price,
+
+        @NotNull(message = "author id required")
+        Long authorId
+) {
 }

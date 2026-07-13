@@ -1,11 +1,13 @@
 package com.example.book_spring.dtos;
 
+import com.example.book_spring.entities.Author;
+
 public record BookResponseDto(
         Integer id,
         String title,
-        String author,
         Integer isbn,
-        Double price
+        Double price,
+        Author author
 
 ) {
 }

@@ -1,7 +1,11 @@
 package com.example.book_spring.controllers;
 
+import com.example.book_spring.dtos.BookAddDto;
+import com.example.book_spring.dtos.BookResponseDto;
+import com.example.book_spring.dtos.BookUpdateDto;
 import com.example.book_spring.entities.Book;
 import com.example.book_spring.services.BookService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,49 +23,29 @@ public class BookController {
     }
 
     @PostMapping
-    public Book addBook(@RequestBody Book book) {
+    public BookResponseDto addBook(@RequestBody @Valid BookAddDto book) {
         return bookService.save(book);
     }
 
     @GetMapping
-    public List<Book> getAll() {
+    public List<BookResponseDto> getAll() {
         return bookService.findAll();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> update(@PathVariable int id, @RequestBody Book book) {
-        Optional<Book> currentBook = bookService.update(id);
-
-        if (currentBook.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        Book updatedBook = currentBook.get();
-        updatedBook.setTitle(book.getTitle());
-        updatedBook.setAuthor(book.getAuthor());
-        updatedBook.setIsbn(book.getIsbn());
-        updatedBook.setPrice(book.getPrice());
-
-        return new ResponseEntity<>(bookService.save(updatedBook), HttpStatus.OK);
+    public ResponseEntity<BookResponseDto> update(@PathVariable int id, @RequestBody BookUpdateDto book) {
+        return new ResponseEntity<>(bookService.update(id, book), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
-        Optional<Book> currentBook = bookService.findOne(id);
-
-        if (currentBook.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         bookService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
     @GetMapping("/isbn/{isbn}")
-    public ResponseEntity<Book> findByIsbn(@PathVariable int isbn) {
-        Optional<Book> currentBook = bookService.findByIsbn(isbn);
-        if (currentBook.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(currentBook.get(), HttpStatus.NO_CONTENT);
+    public ResponseEntity<BookResponseDto> findByIsbn(@PathVariable int isbn) {
+        return new ResponseEntity<>(bookService.findByIsbn(isbn), HttpStatus.OK);
     }
 }
